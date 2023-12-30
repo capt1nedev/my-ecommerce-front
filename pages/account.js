@@ -16,11 +16,16 @@ import styled from "styled-components";
 
 const ColsWrapper = styled.div`
     display: grid;
-    grid-template-columns: 1.2fr .8fr;
-    gap: 40px;
-    margin: 40px 0;
-    p{
-        margin: 5px;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    @media screen and (min-width: 768px) {
+        display: grid;
+        grid-template-columns: 1.2fr .8fr;
+        gap: 40px;
+        margin: 40px 0;
+        p{
+            margin: 5px;
+        }
     }
 `;
 
