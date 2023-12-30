@@ -68,12 +68,12 @@ export default function AccountPage() {
         setWishlistLoaded(false);
         setOrderLoaded(false);
         axios.get('/api/address').then(response => {
-            setName(response.data.name);
-            setEmail(response.data.email);
-            setCity(response.data.city);
-            setPostalCode(response.data.postalCode);
-            setStreetAddress(response.data.streetAddress);
-            setCountry(response.data.country);
+            setName(response.data?.name);
+            setEmail(response.data?.email);
+            setCity(response.data?.city);
+            setPostalCode(response.data?.postalCode);
+            setStreetAddress(response.data?.streetAddress);
+            setCountry(response.data?.country);
             setAddressLoaded(true);
         });
         axios.get('/api/wishlist').then(response => {
@@ -158,7 +158,7 @@ export default function AccountPage() {
                                 {!addressLoaded && (
                                     <Spinner fullWidth={true} />
                                 )}
-                                {addressLoaded || session && (
+                                {addressLoaded && session && (
                                     <>
                                         <Input type="text"
                                             placeholder="Name"
