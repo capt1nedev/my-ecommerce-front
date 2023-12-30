@@ -48,7 +48,6 @@ export default function AccountPage() {
     const [wishedProducts, setWishedProducts] = useState([]);
     const [activeTab, setActiveTab] = useState('Orders');
     const [orders, setOrders] = useState([]);
-    const [savedAddress, setSaveAddress] = useState(false);
     async function logout() {
         await signOut({
             callbackUrl: process.env.NEXT_PUBLIC_URL,
@@ -60,7 +59,6 @@ export default function AccountPage() {
     function saveAddress() {
         const data = { name, email, city, streetAddress, postalCode, country };
         axios.put('/api/address', data);
-        setSaveAddress(true);
     }
     useEffect(() => {
         if (!session) {
@@ -200,9 +198,6 @@ export default function AccountPage() {
                                         </Button>
                                         <hr />
                                     </>
-                                )}
-                                {savedAddress && (
-                                    <p>Saved Sucessfully</p>
                                 )}
                                 {session && (
                                     <Button primary onClick={logout}>Logout</Button>
