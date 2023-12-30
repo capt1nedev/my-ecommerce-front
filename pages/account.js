@@ -158,7 +158,7 @@ export default function AccountPage() {
                                 {!addressLoaded && (
                                     <Spinner fullWidth={true} />
                                 )}
-                                {addressLoaded && session && (
+                                {(addressLoaded && session) || !session && (
                                     <>
                                         <Input type="text"
                                             placeholder="Name"
