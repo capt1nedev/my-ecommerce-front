@@ -155,10 +155,10 @@ export default function AccountPage() {
                         <RevealWrapper delay={100}>
                             <WhiteBox>
                                 <h2>{session ? 'Account Details' : 'Login'}</h2>
-                                {!addressLoaded && (
+                                {(!addressLoaded && session) && (
                                     <Spinner fullWidth={true} />
                                 )}
-                                {addressLoaded || session && (
+                                {addressLoaded && session && (
                                     <>
                                         <Input type="text"
                                             placeholder="Name"
