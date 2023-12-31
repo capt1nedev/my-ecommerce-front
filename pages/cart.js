@@ -226,7 +226,14 @@ export default function CartPage() {
                             )}
                         </Box>
                     </RevealWrapper>
-                    {!!cartProducts?.length && (
+                    {!session && cartProducts.length > 0 && (
+                        <RevealWrapper delay={100}>
+                            <Box>
+                                <h2>Login in to order</h2>
+                            </Box>
+                        </RevealWrapper>
+                    )}
+                    {!!cartProducts?.length && session && (
                         <RevealWrapper delay={100}>
                             <Box>
                                 <h2>Order information</h2>
