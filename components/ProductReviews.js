@@ -7,6 +7,7 @@ import Button from "@/components/Button";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Spinner from "@/components/Spinner";
+import { useSession } from "next-auth/react";
 
 const Title = styled.h2`
     font-size: 1.2rem;
@@ -53,6 +54,7 @@ const ReviewHeader = styled.div`
 `;
 
 export default function ProductReviews({ product }) {
+    const { data: session } = useSession();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [stars, setStars] = useState(0);
@@ -83,21 +85,29 @@ export default function ProductReviews({ product }) {
             <ColsWrapper>
                 <div>
                     <WhiteBox>
-                        <Subtitle>Add review</Subtitle>
-                        <div>
-                            <StarsRating onChange={setStars} />
-                        </div>
-                        <Input
-                            value={title}
-                            onChange={ev => setTitle(ev.target.value)}
-                            placeholder="Title" />
-                        <Textarea
-                            value={description}
-                            onChange={ev => setDescription(ev.target.value)}
-                            placeholder="Was it good? Pros? Cons?" />
-                        <div>
-                            <Button primary onClick={submitReview}>Submit your review</Button>
-                        </div>
+                        {session ? (
+                            <Subtitle>Add review</Subtitle>
+                        ) : (
+                            <Subtitle>Login to submit a review</Subtitle>
+                        )}
+                        {session && (
+                            <>
+                                <div>
+                                    <StarsRating onChange={setStars} />
+                                </div>
+                                <Input
+                                    value={title}
+                                    onChange={ev => setTitle(ev.target.value)}
+                                    placeholder="Title" />
+                                <Textarea
+                                    value={description}
+                                    onChange={ev => setDescription(ev.target.value)}
+                                    placeholder="Was it good? Pros? Cons?" />
+                                <div>
+                                    <Button primary onClick={submitReview}>Submit your review</Button>
+                                </div>
+                            </>
+                        )}
                     </WhiteBox>
                 </div>
                 <div>
@@ -123,7 +133,7 @@ export default function ProductReviews({ product }) {
                         ))}
                     </WhiteBox>
                 </div>
-            </ColsWrapper>
-        </div>
+            </ColsWrapper >
+        </div >
     );
 }
