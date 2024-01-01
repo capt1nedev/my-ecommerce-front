@@ -11,17 +11,25 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const CategoryHeader = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    h1{
-        font-size: 1.5em;
+    @media screen and (min-width: 768px) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        h1{
+            font-size: 1.5em;
+        }
     }
 `;
 
 const FiltersWrapper = styled.div`
-    display: flex;
-    gap: 15px;
+    display: grid;
+    gap: 10px;
+    margin-bottom: 10px;
+    grid-template-columns: 1fr 1fr;
+    @media screen and (min-width: 768px) {
+        display: flex;
+        gap: 15px;
+    }
 `;
 
 const Filter = styled.div`
