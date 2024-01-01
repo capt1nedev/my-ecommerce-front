@@ -118,7 +118,7 @@ export default function AccountPage() {
                                                 {orders.length === 0 && (
                                                     <>
                                                         {session ? (
-                                                            <p>You don`&apos;`t have any orders</p>
+                                                            <p>You don&apos;t have any orders</p>
                                                         ) : (
                                                             <p>Login to see your order</p>
                                                         )}
