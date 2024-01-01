@@ -55,7 +55,10 @@ const ReviewHeader = styled.div`
 const StyledButton = styled(Button)`
     cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
 `;
-
+const ErrorMessage = styled.p`
+    color: red;
+    margin-top: 10px;
+`;
 export default function ProductReviews({ product }) {
     const { data: session } = useSession();
     const [title, setTitle] = useState('');
@@ -63,13 +66,41 @@ export default function ProductReviews({ product }) {
     const [stars, setStars] = useState(0);
     const [reviews, setReviews] = useState([]);
     const [reviewsLoading, setReviewsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('')
     function submitReview() {
+        // const data = { title, description, stars, product: product._id };
+        // axios.post('/api/reviews', data).then(res => {
+        //     setTitle('');
+        //     setDescription('');
+        //     setStars(0);
+        //     loadReviews();
+        // });
+        if (!title.trim() || !description.trim()) {
+            setErrorMessage("Title and description cannot be empty.");
+            return;
+        }
         const data = { title, description, stars, product: product._id };
-        axios.post('/api/reviews', data).then(res => {
-            setTitle('');
-            setDescription('');
-            setStars(0);
-            loadReviews();
+
+        // Check if the user has an order for the specific product
+        axios.get('/api/orders').then((res) => {
+            const hasOrderForProduct = res.data.some((order) =>
+                order.userEmail === session?.user?.email &&
+                order.line_items.some(
+                    (item) => item.price_data.product_data.name === product.title && order.paid === true
+                )
+            );
+
+            if (hasOrderForProduct) {
+                axios.post('/api/reviews', data).then((res) => {
+                    setTitle('');
+                    setDescription('');
+                    setStars(0);
+                    loadReviews();
+                });
+            } else {
+                // User doesn't have an order for the product, handle accordingly
+                setErrorMessage("You can only review products you've ordered.");
+            }
         });
     }
     useEffect(() => {
@@ -108,6 +139,7 @@ export default function ProductReviews({ product }) {
                             <StyledButton primary onClick={submitReview} disabled={!session}>
                                 Submit your review
                             </StyledButton>
+                            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
                         </div>
                     </WhiteBox>
                 </div>

@@ -86,7 +86,8 @@ export default function AccountPage() {
             setWishlistLoaded(true);
         });
         axios.get('/api/orders').then(response => {
-            setOrders(response.data);
+            const filteredOrders = response.data.filter(order => order.paid !== false);
+            setOrders(filteredOrders);
             setOrderLoaded(true);
         });
     }, [session]);
