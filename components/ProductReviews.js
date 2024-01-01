@@ -52,6 +52,9 @@ const ReviewHeader = styled.div`
         color: #aaa;
     }
 `;
+const StyledButton = styled(Button)`
+    cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+`;
 
 export default function ProductReviews({ product }) {
     const { data: session } = useSession();
@@ -85,29 +88,27 @@ export default function ProductReviews({ product }) {
             <ColsWrapper>
                 <div>
                     <WhiteBox>
-                        {session ? (
-                            <Subtitle>Add review</Subtitle>
-                        ) : (
-                            <Subtitle>Login to submit a review</Subtitle>
-                        )}
-                        {session && (
-                            <>
-                                <div>
-                                    <StarsRating onChange={setStars} />
-                                </div>
-                                <Input
-                                    value={title}
-                                    onChange={ev => setTitle(ev.target.value)}
-                                    placeholder="Title" />
-                                <Textarea
-                                    value={description}
-                                    onChange={ev => setDescription(ev.target.value)}
-                                    placeholder="Was it good? Pros? Cons?" />
-                                <div>
-                                    <Button primary onClick={submitReview}>Submit your review</Button>
-                                </div>
-                            </>
-                        )}
+                        <Subtitle>{session ? 'Add review' : 'Login to submit a review'}</Subtitle>
+                        <div>
+                            <StarsRating onChange={setStars} disabled={!session} />
+                        </div>
+                        <Input
+                            value={title}
+                            onChange={ev => setTitle(ev.target.value)}
+                            placeholder="Title"
+                            disabled={!session}
+                        />
+                        <Textarea
+                            value={description}
+                            onChange={ev => setDescription(ev.target.value)}
+                            placeholder="Was it good? Pros? Cons?"
+                            disabled={!session}
+                        />
+                        <div>
+                            <StyledButton primary onClick={submitReview} disabled={!session}>
+                                Submit your review
+                            </StyledButton>
+                        </div>
                     </WhiteBox>
                 </div>
                 <div>
