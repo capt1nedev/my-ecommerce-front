@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const ColsWrapper = styled.div`
+    margin: 30px 0;
     display: grid;
     grid-template-columns: 1fr;
     gap: 20px;
@@ -25,6 +26,15 @@ const ColsWrapper = styled.div`
         margin: 40px 0;
         p{
             margin: 5px;
+        }
+    }
+    @media screen and (max-width: 767px) {
+        & > div {
+            order: 2;
+        }
+
+        & > div:last-child {
+            order: 1;
         }
     }
 `;
