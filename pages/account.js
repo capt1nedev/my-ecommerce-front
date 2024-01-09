@@ -63,6 +63,7 @@ export default function AccountPage() {
     const [wishedProducts, setWishedProducts] = useState([]);
     const [activeTab, setActiveTab] = useState('Orders');
     const [orders, setOrders] = useState([]);
+    const [successMessage, setSuccessMessage] = useState('');
     async function logout() {
         await signOut({
             callbackUrl: process.env.NEXT_PUBLIC_URL,
@@ -73,7 +74,11 @@ export default function AccountPage() {
     }
     function saveAddress() {
         const data = { name, email, city, streetAddress, postalCode, country };
-        axios.put('/api/address', data);
+        axios.put('/api/address', data).then(() => {
+            setSuccessMessage('Saved successfully!')
+        }).catch(error => {
+            console.error("Failed to save:", error)
+        });
     }
     useEffect(() => {
         if (!session) {
@@ -214,6 +219,9 @@ export default function AccountPage() {
                                             value={country}
                                             name="country"
                                             onChange={ev => setCountry(ev.target.value)} />
+                                        {successMessage && (
+                                            <p style={{ color: 'green' }}>{successMessage}</p>
+                                        )}
                                         <Button black block
                                             onClick={saveAddress}>
                                             Save
