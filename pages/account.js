@@ -210,7 +210,7 @@ export default function AccountPage() {
                                                 onChange={ev => setPostalCode(ev.target.value)} />
                                         </CityHolder>
                                         <Input type="text"
-                                            placeholder="Street Address"
+                                            placeholder="Address"
                                             value={streetAddress}
                                             name="streetAddress"
                                             onChange={ev => setStreetAddress(ev.target.value)} />
